@@ -1,2 +1,2 @@
-php \apache\htdocs\wordpress\wp-content\themes\oik-tip.php %*
+php \apache\htdocs\wordpress\wp-content\plugins\oik-tip\oik-tip.php %*
 

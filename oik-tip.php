@@ -1,9 +1,33 @@
-<?php // (C) Copyright Bobbing Wide 2012-2014
+<?php // (C) Copyright Bobbing Wide 2012-2016
+/*
+Plugin Name: oik-tip
+Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-tip
+Description: ZIP a WordPress theme for release
+Version: 0.0.0
+Author: bobbingwide
+Author URI: http://www.oik-plugins.com/author/bobbingwide
+Text Domain: oik-tip
+Domain Path: /languages/
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-/**
- * @package tip
- * Based on zip.php this creates a ZIP file for a theme
- */
+    Copyright 2012-2016 Bobbing Wide (email : herb@bobbingwide.com )
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License version 2,
+    as published by the Free Software Foundation.
+
+    You may NOT assume that you can use any other version of the GPL.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    The license for this software can likely be found here:
+    http://www.gnu.org/licenses/gpl-2.0.html
+
+*/
 
 /*
 function phpzip() {
@@ -65,6 +89,9 @@ function cd2themes() {
 
 /**
  * Create a .zip file package for a theme
+ * 
+ * Note: This is not yet dependent upon oikwp.
+ * 
  */
  if ( $argc < 2 ) {
    echo "Syntax: php tip.php theme version" ;
@@ -152,6 +179,7 @@ Code Meaning
 function do7zip( $theme, $filename ) {
 
   $cmd = '"C:\\Program Files (x86)\\7-Zip\\7z.exe"';
+  $cmd = '"C:\\Program Files\\7-Zip\\7z.exe"';
   $cmd .= " a "; 
   $cmd .= " -xr!flh0grep.* -xr!custom.css  ";
 	
