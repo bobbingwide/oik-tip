@@ -3,7 +3,7 @@
 Plugin Name: oik-tip
 Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-tip
 Description: ZIP a WordPress theme for release
-Version: 0.0.0
+Version: 0.0.1
 Author: bobbingwide
 Author URI: http://www.oik-plugins.com/author/bobbingwide
 Text Domain: oik-tip

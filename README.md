@@ -3,8 +3,8 @@
 * Donate link: http://www.oik-plugins.com/oik/oik-donate/
 * Tags: zip, 7-zip, theme, package, oik-batch, CLI
 * Requires at least: 4.3
-* Tested up to: 4.4.1
-* Stable tag: 0.0.0
+* Tested up to: 4.5-RC1
+* Stable tag: 0.0.1
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,11 +72,17 @@ No. Updating the SVN version is currently a manual process performed after creat
 1. oik-tip in action - not actually taken
 
 ## Upgrade Notice 
+# 0.0.1 
+Now includes the custom.css file.
+
 # 0.0.0 
 Finally put under version control.
 First version of the plugin, available from GitHub and oik-plugins.
 
 ## Changelog 
+# 0.0.1 
+* Changed: Includes the custom.css file in the .zip file. First part [github bobbingwide oik-tip issue 1]
+
 # 0.0.0 
 * Added: First version on GitHub
 
