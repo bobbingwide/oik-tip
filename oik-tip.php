@@ -181,8 +181,8 @@ function do7zip( $theme, $filename ) {
   $cmd = '"C:\\Program Files (x86)\\7-Zip\\7z.exe"';
   $cmd = '"C:\\Program Files\\7-Zip\\7z.exe"';
   $cmd .= " a "; 
-  $cmd .= " -xr!flh0grep.* -xr!custom.css  ";
-	
+  $cmd .= " -xr!flh0grep.*  ";
+  //$cmd .= " -xr!custom.css  ";
   $cmd .= " -xr!.git* -xr!.idea* -xr!working/*";
   $cmd .= ' "';
   $cmd .= $theme;
