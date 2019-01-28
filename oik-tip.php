@@ -53,12 +53,23 @@ function add_files( $zip ) {
 }
 */
 
-function docontinue( $theme ) {
-    echo "Continue? $theme ";
-    $stdin = fopen( "php://stdin", "r" );
-    $response = fgets( $stdin );
-    fclose( $stdin );
-    return( $response );
+/**
+ * Prompt to check if the process should be continued
+ *
+ * This routine does not make any decisions.
+ * If you want to stop you just press Ctrl-Break.
+ *
+ */
+if ( !function_exists( 'docontinue' ) ) { 
+function docontinue( $plugin="Press Ctrl-Break to halt" ) {
+	echo PHP_EOL;
+	echo "Continue? $plugin ";
+	$stdin = fopen( "php://stdin", "r" );
+	$response = fgets( $stdin );
+	$response = trim( $response );
+	fclose( $stdin );
+	return( $response );
+}
 }
 
 /**
@@ -93,10 +104,16 @@ function cd2themes() {
  * Note: This is not yet dependent upon oikwp.
  * 
  */
+ 
+if ( !isset( $argc ) ) {
+	$argc = $_SERVER['argc'];
+	$argv = $_SERVER['argv'];
+	//echo $argv[1];
+} 
  if ( $argc < 2 ) {
-   echo "Syntax: php tip.php theme version" ;
+   echo "Syntax: php oik-wp.php oik-tip.php theme version" ;
    echo PHP_EOL;
-   echo "e.g. php tip.php olc120815c v1.0"; 
+   echo "e.g. tip olc120815c v1.0"; 
    echo PHP_EOL;
  } else {
    //$phpfile = $argv[0];
