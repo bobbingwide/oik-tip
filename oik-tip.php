@@ -1,17 +1,17 @@
-<?php // (C) Copyright Bobbing Wide 2012-2016
+<?php
 /*
 Plugin Name: oik-tip
-Plugin URI: http://www.oik-plugins.com/oik-plugins/oik-tip
+Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-tip
 Description: ZIP a WordPress theme for release
-Version: 0.0.2
+Version: 0.1.0
 Author: bobbingwide
-Author URI: http://www.oik-plugins.com/author/bobbingwide
+Author URI: https://bobbingwide.com/about-bobbing-wide
 Text Domain: oik-tip
 Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2012-2016 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2021 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -111,9 +111,9 @@ if ( !isset( $argc ) ) {
 	//echo $argv[1];
 } 
  if ( $argc < 2 ) {
-   echo "Syntax: php oik-wp.php oik-tip.php theme version" ;
+   echo "Syntax: php oik-wp.php oik-tip.php theme version branch" ;
    echo PHP_EOL;
-   echo "e.g. tip olc120815c v1.0"; 
+   echo "e.g. tip olc120815c v1.0 master";
    echo PHP_EOL;
  } else {
    //$phpfile = $argv[0];
@@ -121,8 +121,10 @@ if ( !isset( $argc ) ) {
    //echo PHP_EOL;
    $theme = $argv[1];
    $version = $argv[2];
+	 $branch = bw_array_get( $argv, 3, 'master'); // alternative 'main'
    $filename = "$theme $version.zip";
-   echo "creating $filename";
+   echo "Creating $filename";
+   echo "for branch:" . $branch;
    echo PHP_EOL;
    
    //$sd = chdir( "\apache\htdocs\wordpress\wp-content\themes" );
@@ -133,8 +135,9 @@ if ( !isset( $argc ) ) {
    dosetversion( $theme, $version );
    docontinue( "$theme $version" );
 	 
-   doreadmemd( $theme );
+   doreadmemd( $theme, $branch );
    do7zip( $theme, $filename );
+   domovetouploadsthemes( $filename );
    
      
    }
@@ -198,9 +201,7 @@ function do7zip( $theme, $filename ) {
   $cmd = '"C:\\Program Files (x86)\\7-Zip\\7z.exe"';
   $cmd = '"C:\\Program Files\\7-Zip\\7z.exe"';
   $cmd .= " a "; 
-  $cmd .= " -xr!flh0grep.*  ";
-  //$cmd .= " -xr!custom.css  ";
-  $cmd .= " -xr!.git* -xr!.idea* -xr!working/*";
+  $cmd .= do7zip_exclusions();
   $cmd .= ' "';
   $cmd .= $theme;
   $cmd .= '.zip" ';
@@ -242,23 +243,54 @@ function dosetversion( $theme, $version ) {
  * 
  * @param string $plugin   
  */ 
-function doreadmemd( $theme ) {
+function doreadmemd( $theme, $branch ) {
   $cwd = getcwd();
   echo __FUNCTION__ . $cwd;
   echo PHP_EOL;
   setcd( "wp-content", "themes/$theme" );
   docontinue( "in theme dir" );
   $return_var = null;
-  $cmd = "t2m > README.md";
+  $cmd = "t2m $branch > README.md";
   echo $cmd;
   $lastline = exec( $cmd, $output, $return_var );
   echo $return_var;
   //setcd( "wp-content", "plugins" );
   cd2themes();
 }
- 
-   
- 
-   
-   
- 
+
+/**
+ *  Moves the file to uploads/plugins
+ *
+ */
+function domovetouploadsthemes( $filename ) {
+	rename( $filename, "C:/apache/htdocs/uploads/themes/" . $filename );
+}
+
+/**
+ * Return the list of exclusions
+ *
+ * Don't process these files.
+ * $cmd .= " -xr!flh0grep.* -xr!.git* -xr!.idea* -xr!screenshot*";
+ *
+ * Note: We're in Windows but the forward slashes don't need to be backslashes.
+ * What's important is that you don't have *'s when specifying directories.
+ *
+ * ` -xr!flh0grep.* -xr!.git* -xr!.idea* -xr!working/ -xr!assets\\ ...`
+ *
+ *  $cmd .= " -xr!flh0grep.*  ";
+//$cmd .= " -xr!custom.css  ";
+$cmd .= " -xr!.git* -xr!.idea* -xr!working/*";
+ *
+ * @return string files to exclude from the archive
+ */
+function do7zip_exclusions() {
+	$exclusions = array( null, "flh0grep.*", ".git*", ".idea*", "working/", "assets\*-banner-772x250.jpg", "assets\*-icon-256x256.jpg" );
+	$exclusions[] = "phpunit.*";
+	$exclusions[] = "tests/";
+	$exclusions[] = "node_modules/";
+	$exclusions[] = "cache";
+	$exclusions[] = "cache_v2";
+	$exclusions[] = 'assets/';
+	$exclusions = implode( " -xr!", $exclusions );
+	return( $exclusions );
+}
