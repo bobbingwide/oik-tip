@@ -3,7 +3,7 @@
 Plugin Name: oik-tip
 Plugin URI: https://www.oik-plugins.com/oik-plugins/oik-tip
 Description: ZIP a WordPress theme for release
-Version: 0.1.0
+Version: 0.1.1
 Author: bobbingwide
 Author URI: https://bobbingwide.com/about-bobbing-wide
 Text Domain: oik-tip
@@ -11,7 +11,7 @@ Domain Path: /languages/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-    Copyright 2012-2021 Bobbing Wide (email : herb@bobbingwide.com )
+    Copyright 2012-2023 Bobbing Wide (email : herb@bobbingwide.com )
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License version 2,
@@ -216,13 +216,13 @@ function do7zip( $theme, $filename ) {
   if ( file_exists( $filename ) ) { 
     unlink( $filename );
   }
-  $renamed = rename( "${theme}.zip", $filename );
+  $renamed = rename( "{$theme}.zip", $filename );
 
 }
 
 function dosetversion( $theme, $version ) {
   echo "Set the version to $version" . PHP_EOL;
-  $cmd = "vs ${theme}\\readme.txt ${theme}\\style.css" ; 
+  $cmd = "vs {$theme}\\readme.txt {$theme}\\style.css" ;
   $output = array();
   $return_var = null;
   echo $cmd;
